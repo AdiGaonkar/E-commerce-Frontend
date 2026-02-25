@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError';
 import { useGlobalContext } from '../provider/GlobalProvider';
 
+
 const Address = () => {
   const addressList = useSelector(state => state.addresses.addressList)
   const [openAddress,setOpenAddress] = useState(false)
