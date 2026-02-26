@@ -1,4 +1,4 @@
-export const baseURL = "http://localhost:8080"
+export const baseURL = "https://backend-e-commerce-xwe1.onrender.com"
 const SummaryApi = {
     register: {
         url: '/api/user/register',
