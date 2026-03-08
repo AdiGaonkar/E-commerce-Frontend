@@ -1,4 +1,4 @@
-export const baseURL = "https://backend-e-commerce-xwe1.onrender.com"
+export const baseURL = "https://e-commerce-backend-83j4.onrender.com"
 const SummaryApi = {
     register: {
         url: '/api/user/register',
