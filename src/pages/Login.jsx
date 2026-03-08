@@ -24,37 +24,57 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     try {
       const response = await Axios({
         ...SummaryApi.login,
         data
       })
 
-      if (response.data.error) {
-        toast.error(response.data.message)
+      // error from backend
+      if (response?.data?.error) {
+        toast.error(response.data.message || "Login failed ❌")
+        return
       }
 
-      if (response.data.success) {
-        toast.success(response.data.message)
-        localStorage.setItem('accesstoken', response.data.data.accesstoken)
-        localStorage.setItem('refreshToken', response.data.data.refreshToken)
+      // success
+      if (response?.data?.success) {
+        toast.success("Login successful 🎉")
+
+        localStorage.setItem("accesstoken", response.data.data.accesstoken)
+        localStorage.setItem("refreshToken", response.data.data.refreshToken)
 
         const userDetails = await fetchUserDetails()
         dispatch(setUserDetails(userDetails.data))
 
-        setData({ email: "", password: "" })
+        setData({
+          email: "",
+          password: ""
+        })
+
         navigate("/")
       }
+
     } catch (error) {
+
+      // backend error
+      if (error.response) {
+        toast.error(error.response.data.message || "Invalid credentials ❌")
+      }
+      // network error
+      else {
+        toast.error("Server not responding 🚨")
+      }
+
       AxiosToastError(error)
     }
   }
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-900 via-black to-green-800 px-4">
-      
+
       <div className="w-full max-w-md bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-8">
-        
+
         {/* Heading */}
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Welcome Back 👋</h1>
@@ -65,7 +85,7 @@ const Login = () => {
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleSubmit}>
-          
+
           {/* Email */}
           <div>
             <label className="text-sm font-medium text-gray-700">Email</label>
@@ -112,8 +132,8 @@ const Login = () => {
           <button
             disabled={!valideValue}
             className={`w-full py-2.5 rounded-lg font-semibold text-white transition-all
-              ${valideValue 
-                ? "bg-green-700 hover:bg-green-600 shadow-lg" 
+              ${valideValue
+                ? "bg-green-700 hover:bg-green-600 shadow-lg"
                 : "bg-gray-400 cursor-not-allowed"}
             `}
           >
