@@ -32,44 +32,41 @@ const Register = () => {
     const valideValue = Object.values(data).every(el => el)
 
 
-    const handleSubmit = async(e)=>{
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+  e.preventDefault();
 
-        if(data.password !== data.confirmPassword){
-            toast.error(
-                "password and confirm password must be same"
-            )
-            return
-        }
+  if (data.password !== data.confirmPassword) {
+    toast.error("Password and Confirm Password must match");
+    return;
+  }
 
-        try {
-            const response = await Axios({
-                ...SummaryApi.register,
-                data : data
-            })
-            
-            if(response.data.error){
-                toast.error(response.data.message)
-            }
+  try {
+    const response = await Axios({
+      ...SummaryApi.register,
+      data: data,
+    });
 
-            if(response.data.success){
-                toast.success(response.data.message)
-                setData({
-                    name : "",
-                    email : "",
-                    password : "",
-                    confirmPassword : ""
-                })
-                navigate("/login")
-            }
-
-        } catch (error) {
-            AxiosToastError(error)
-        }
-
-
-
+    if (response.data.error) {
+      toast.error(response.data.message || "Registration failed");
     }
+
+    if (response.data.success) {
+      toast.success("Account created successfully 🎉");
+
+      setData({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+
+      navigate("/login");
+    }
+  } catch (error) {
+    toast.error("Something went wrong. Try again.");
+    AxiosToastError(error);
+  }
+};
     return (
         <section className='w-full container mx-auto px-2'>
             <div className='bg-white my-4 w-full max-w-lg mx-auto rounded p-7'>
