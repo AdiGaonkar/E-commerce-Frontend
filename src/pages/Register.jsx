@@ -288,7 +288,7 @@ const Register = () => {
   flex: 1;
   min-width: 0; /* FIX: prevents long email overflow */
   background: transparent;
-  border-color: #16a34a
+  border-color: Black
   outline: none;
   font-size: 14px;
   color: #0f172a;
